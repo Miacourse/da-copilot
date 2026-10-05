@@ -1,0 +1,19 @@
+# Secrets — ne jamais committer
+cvlynk_agent.json
+reenroll.py
+.env
+*.token
+*token*
+
+# Données brutes / volumineuses
+*.csv
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# OS / éditeur
+.DS_Store
+Thumbs.db
