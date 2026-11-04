@@ -2,6 +2,8 @@
 
 Agent rigoureux et pédagogue qui transforme une question métier et un ou plusieurs jeux de données en une réponse claire, chiffrée et vérifiable : KPI, tendances, anomalies, visualisations et recommandations actionnables.
 
+**Site** : https://miacourse.github.io/da-copilot/
+
 ## Structure
 
 - [`SKILL.md`](SKILL.md) — définition de l'agent (rôle, déclencheurs, workflow en 5 étapes, contraintes, human-gate, critères de succès)

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://miacourse.github.io/da-copilot/sitemap.xml

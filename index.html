@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DA-Copilot — Agent IA d'analyse de données (open source)</title>
+  <meta name="description" content="DA-Copilot transforme vos données (CSV, Excel) en réponses chiffrées et vérifiables : KPI, tendances, anomalies, visualisations, modélisation et rapports actionnables. Open source, en français.">
+  <meta name="keywords" content="agent analyse de données, IA data analyst, analyse CSV, KPI automatique, tableau de bord, data analyst agent, open source, pandas, visualisation de données">
+  <link rel="canonical" href="https://miacourse.github.io/da-copilot/">
+  <link rel="icon" href="https://miacourse.github.io/da-copilot/favicon.svg" type="image/svg+xml">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="DA-Copilot">
+  <meta property="og:locale" content="fr_FR">
+  <meta property="og:title" content="DA-Copilot — Agent IA d'analyse de données">
+  <meta property="og:description" content="De la question métier à la recommandation chiffrée : nettoyage, KPI, visualisations, modélisation et rapport — en toute transparence.">
+  <meta property="og:url" content="https://miacourse.github.io/da-copilot/">
+  <meta property="og:image" content="https://miacourse.github.io/da-copilot/figures/fig8_feature_importance.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="DA-Copilot — Agent IA d'analyse de données">
+  <meta name="twitter:description" content="Agent open source qui transforme vos données en décisions chiffrées et vérifiables.">
+  <meta name="twitter:image" content="https://miacourse.github.io/da-copilot/figures/fig8_feature_importance.png">
+  <meta name="theme-color" content="#0f1216">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "DA-Copilot",
+    "url": "https://miacourse.github.io/da-copilot/",
+    "description": "Agent IA open source d'analyse de données : KPI, visualisations, modélisation et rapports vérifiables.",
+    "inLanguage": "fr"
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "DA-Copilot",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Linux, macOS, Windows",
+    "description": "Agent data analyst qui transforme une question métier et des jeux de données en réponse chiffrée, vérifiable et actionnable.",
+    "url": "https://miacourse.github.io/da-copilot/",
+    "codeRepository": "https://github.com/Miacourse/da-copilot",
+    "license": "https://opensource.org/licenses/MIT",
+    "inLanguage": "fr",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EUR" },
+    "author": { "@type": "Person", "name": "Souleymane" }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Qu'est-ce que DA-Copilot ?",
+        "acceptedAnswer": { "@type": "Answer", "text": "DA-Copilot est un agent d'analyse de données open source qui transforme une question métier et un ou plusieurs jeux de données en une réponse claire, chiffrée et vérifiable : KPI, tendances, anomalies, visualisations et recommandations actionnables." }
+      },
+      {
+        "@type": "Question",
+        "name": "Comment installer DA-Copilot ?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Clonez le dépôt GitHub, installez pandas, numpy, scikit-learn, matplotlib et seaborn, puis exécutez les scripts du pipeline dans l'ordre : 01_profile.py, 02_prepare.py, 03_eda.py, 04_model.py, 05_dashboard.py." }
+      },
+      {
+        "@type": "Question",
+        "name": "DA-Copilot est-il gratuit ?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Oui. DA-Copilot est open source (licence MIT). Le code, les scripts et la méthodologie sont librement réutilisables." }
+      },
+      {
+        "@type": "Question",
+        "name": "Quels types de données DA-Copilot peut-il analyser ?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Tout jeu de données tabulaire : CSV, Excel, Parquet ou export SQL en lecture seule. L'agent contrôle la qualité, nettoie, documente chaque transformation et produit des KPI vérifiés par un second calcul." }
+      }
+    ]
+  }
+  </script>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #0f1216;
+      --panel: #171b21;
+      --panel-2: #1e242b;
+      --border: #232a33;
+      --text: #e6e9ee;
+      --muted: #8b93a1;
+      --accent: #2a9d8f;
+      --accent-2: #e9c46a;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.6;
+    }
+    .wrap { max-width: 1040px; margin: 0 auto; padding: 0 24px; }
+    header.site {
+      border-bottom: 1px solid var(--border);
+      padding: 18px 0;
+      position: sticky; top: 0;
+      background: rgba(15, 18, 22, 0.92);
+      backdrop-filter: blur(6px);
+      z-index: 10;
+    }
+    header.site .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+    .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; color: var(--text); text-decoration: none; font-size: 1.05rem; }
+    .brand svg { display: block; }
+    nav.main a { color: var(--muted); text-decoration: none; margin-left: 18px; font-size: 0.9rem; }
+    nav.main a:hover { color: var(--text); }
+    .hero { padding: 72px 0 48px; text-align: center; }
+    .badge {
+      display: inline-block; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--accent); border: 1px solid var(--accent); border-radius: 999px;
+      padding: 4px 14px; margin-bottom: 22px;
+    }
+    h1 { font-size: clamp(2rem, 5vw, 3rem); line-height: 1.15; margin: 0 0 18px; letter-spacing: -0.01em; }
+    h1 .accent { color: var(--accent); }
+    .lead { max-width: 760px; margin: 0 auto 28px; color: var(--muted); font-size: 1.15rem; }
+    .cta { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .btn { display: inline-block; padding: 12px 22px; border-radius: 8px; font-weight: 600; text-decoration: none; font-size: 0.95rem; }
+    .btn-primary { background: var(--accent); color: #08110f; }
+    .btn-secondary { border: 1px solid var(--border); color: var(--text); background: var(--panel); }
+    section { padding: 40px 0; border-top: 1px solid var(--border); }
+    h2 { font-size: 1.6rem; margin: 0 0 18px; letter-spacing: -0.01em; }
+    h3 { font-size: 1.05rem; margin: 0 0 6px; }
+    p { margin: 0 0 14px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; }
+    .card { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+    .card p { color: var(--muted); font-size: 0.92rem; margin: 0; }
+    ol.steps { counter-reset: step; list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
+    ol.steps li {
+      counter-increment: step;
+      background: var(--panel); border: 1px solid var(--border); border-radius: 10px;
+      padding: 14px 16px 14px 56px; position: relative;
+    }
+    ol.steps li::before {
+      content: counter(step);
+      position: absolute; left: 16px; top: 12px;
+      width: 28px; height: 28px; border-radius: 8px;
+      background: var(--accent); color: #08110f;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700;
+    }
+    ol.steps li span { display: block; color: var(--muted); font-size: 0.88rem; }
+    pre {
+      background: var(--panel-2); border: 1px solid var(--border); border-radius: 10px;
+      padding: 16px; overflow-x: auto; font-size: 0.85rem;
+    }
+    .kpi-band { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; margin-top: 10px; }
+    .kpi { background: var(--panel); padding: 18px; border-right: 1px solid var(--border); }
+    .kpi:last-child { border-right: 0; }
+    .kpi .v { font-size: 1.5rem; font-weight: 700; color: var(--accent-2); }
+    .kpi .l { font-size: 0.78rem; color: var(--muted); }
+    details { background: var(--panel); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; margin-bottom: 10px; }
+    summary { cursor: pointer; font-weight: 600; }
+    details p { color: var(--muted); margin: 10px 0 0; font-size: 0.94rem; }
+    footer { border-top: 1px solid var(--border); padding: 24px 0 40px; color: var(--muted); font-size: 0.85rem; }
+    footer a { color: var(--text); }
+    .links { display: flex; gap: 16px; flex-wrap: wrap; }
+  </style>
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="https://miacourse.github.io/da-copilot/">
+      <svg width="26" height="26" viewBox="0 0 26 26" role="img" aria-label="DA-Copilot logo">
+        <rect width="26" height="26" rx="6" fill="#2a9d8f"></rect>
+        <path d="M6 17 L11 10 L15 14 L20 6" fill="none" stroke="#08110f" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path>
+      </svg>
+      DA-Copilot
+    </a>
+    <nav class="main" aria-label="Navigation principale">
+      <a href="#fonctionnalites">Fonctionnalités</a>
+      <a href="#demarrage">Démarrage</a>
+      <a href="#faq">FAQ</a>
+      <a href="https://github.com/Miacourse/da-copilot">GitHub</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+
+    <section class="hero" aria-labelledby="titre" style="border-top:0">
+      <span class="badge">Open source · MIT · Français</span>
+      <h1 id="titre">L'agent d'analyse de données qui <span class="accent">prouve ses chiffres</span></h1>
+      <p class="lead">DA-Copilot transforme une question métier et vos jeux de données (CSV, Excel, Parquet, SQL en lecture seule) en une réponse claire, chiffrée et vérifiable : KPI, tendances, anomalies, visualisations et recommandations actionnables.</p>
+      <div class="cta">
+        <a class="btn btn-primary" href="#demarrage">Démarrer en 5 minutes</a>
+        <a class="btn btn-secondary" href="https://github.com/Miacourse/da-copilot">Voir le code sur GitHub</a>
+      </div>
+    </section>
+
+    <section id="fonctionnalites" aria-labelledby="titre-fonc">
+      <h2 id="titre-fonc">Ce que DA-Copilot fait pour vous</h2>
+      <div class="grid">
+        <div class="card">
+          <h3>Contrôle qualité</h3>
+          <p>Profilage chiffré : lignes, colonnes, % de valeurs manquantes, doublons, incohérences et outliers détectés avant toute analyse.</p>
+        </div>
+        <div class="card">
+          <h3>Nettoyage tracé</h3>
+          <p>Chaque transformation est documentée avec son motif. Vos sources ne sont jamais modifiées : analyse sur copies uniquement.</p>
+        </div>
+        <div class="card">
+          <h3>KPI vérifiés</h3>
+          <p>Chaque indicateur a une définition, une période et un périmètre explicites — recoupés par un second calcul.</p>
+        </div>
+        <div class="card">
+          <h3>Visualisations honnêtes</h3>
+          <p>Axes non trompeurs, échelles lisibles, titres explicites. Des graphiques qui éclairent la décision, pas qui la maquillent.</p>
+        </div>
+        <div class="card">
+          <h3>Modélisation prudente</h3>
+          <p>Comparaison de modèles, validation croisée, métriques adaptées au déséquilibre de classes — sans survendre les résultats.</p>
+        </div>
+        <div class="card">
+          <h3>Rapports actionnables</h3>
+          <p>Livrable final : insights, recommandations et preuves complètes — exportable en rapport HTML autonome.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="fonctionnement" aria-labelledby="titre-fonct">
+      <h2 id="titre-fonct">Un workflow en 5 étapes, chaque étape vérifiable</h2>
+      <ol class="steps">
+        <li><strong>Comprendre</strong><span>Reformulation de la question métier, KPI, période, segments et public cible.</span></li>
+        <li><strong>Contrôler les données</strong><span>État des lieux chiffré : qualité, manquants, doublons, incohérences.</span></li>
+        <li><strong>Nettoyer et préparer</strong><span>Corrections, standardisation, colonnes calculées — avec journal des transformations.</span></li>
+        <li><strong>Analyser</strong><span>Statistiques, tendances, segments, corrélations, anomalies — chiffres recoupés.</span></li>
+        <li><strong>Visualiser et livrer</strong><span>Graphiques, insights, recommandations et rapport final avec preuves.</span></li>
+      </ol>
+    </section>
+
+    <section id="demarrage" aria-labelledby="titre-dem">
+      <h2 id="titre-dem">Démarrage rapide</h2>
+      <pre><code>git clone https://github.com/Miacourse/da-copilot.git
+cd da-copilot
+pip install pandas numpy scikit-learn matplotlib seaborn
+
+python scripts/01_profile.py   # profilage &amp; contrôle qualité
+python scripts/02_prepare.py   # nettoyage + journal
+python scripts/03_eda.py       # exploration + graphiques
+python scripts/04_model.py     # comparaison de modèles
+python scripts/05_dashboard.py # dashboard HTML autonome</code></pre>
+      <p style="color:var(--muted); font-size:0.9rem">Adaptez le chemin du CSV en tête de <code>scripts/01_profile.py</code> (variable <code>CSV</code>). Fonctionne sous Linux, macOS et Windows.</p>
+    </section>
+
+    <section id="etude-de-cas" aria-labelledby="titre-cas">
+      <h2 id="titre-cas">Étude de cas : statut des startups</h2>
+      <p>Prédiction du statut (<code>operating</code> / <code>acquired</code> / <code>closed</code>) d'une startup à partir de ses investissements.</p>
+      <div class="kpi-band" aria-label="Résultats clés">
+        <div class="kpi"><div class="v">48 124</div><div class="l">startups analysées (après nettoyage)</div></div>
+        <div class="kpi"><div class="v">≈ 0,61</div><div class="l">balanced accuracy (Gradient Boosting)</div></div>
+        <div class="kpi"><div class="v">~61 %</div><div class="l">« acquired » détectées</div></div>
+        <div class="kpi"><div class="v">~57 %</div><div class="l">« closed » détectées</div></div>
+      </div>
+      <p style="margin-top:16px; color:var(--muted); font-size:0.92rem">Métriques adaptées au fort déséquilibre de classes. Biais de survie signalé : corrélation ≠ causalité. Rapport complet et dashboard ouverts.</p>
+      <div class="links" style="margin-top:12px">
+        <a href="RAPPORT.html">Lire le rapport complet</a>
+        <a href="dashboard.html">Voir le dashboard</a>
+        <a href="SKILL.html">Voir la définition de l'agent (SKILL.md)</a>
+      </div>
+    </section>
+
+    <section id="faq" aria-labelledby="titre-faq">
+      <h2 id="titre-faq">Questions fréquentes</h2>
+      <details>
+        <summary>Qu'est-ce que DA-Copilot ?</summary>
+        <p>Un agent d'analyse de données open source qui transforme une question métier et vos données en réponse chiffrée, vérifiable et actionnable — y compris pour un public non technique.</p>
+      </details>
+      <details>
+        <summary>Comment installer DA-Copilot ?</summary>
+        <p>Clonez le dépôt, installez les dépendances Python (pandas, numpy, scikit-learn, matplotlib, seaborn) et exécutez les 5 scripts du pipeline dans l'ordre.</p>
+      </details>
+      <details>
+        <summary>DA-Copilot est-il gratuit ?</summary>
+        <p>Oui, sous licence MIT. Le code, la méthodologie et les rapports sont librement réutilisables et modifiables.</p>
+      </details>
+      <details>
+        <summary>Quelles données DA-Copilot peut-il analyser ?</summary>
+        <p>CSV, Excel, Parquet et exports SQL en lecture seule. L'agent contrôle la qualité, documente chaque transformation et n'invente jamais de chiffres.</p>
+      </details>
+      <details>
+        <summary>Mes données sont-elles envoyées à l'extérieur ?</summary>
+        <p>Non. Le traitement est local (Python sur votre machine). Confidentialité par défaut : aucune donnée n'est transmise à un service externe.</p>
+      </details>
+    </section>
+
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p><strong>DA-Copilot</strong> — Agent d'analyse de données open source (MIT). Développé par Souleymane.</p>
+    <div class="links">
+      <a href="https://github.com/Miacourse/da-copilot">Code source (GitHub)</a>
+      <a href="RAPPORT.html">Rapport</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="https://github.com/Miacourse/da-copilot/issues">Signaler un problème</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
